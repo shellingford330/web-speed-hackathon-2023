@@ -1,10 +1,12 @@
 import classNames from 'classnames';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 
 import { Layout } from '../../components/application/Layout';
 import { AspectRatio } from '../../components/foundation/AspectRatio';
+import { DeviceType, GetDeviceType } from '../../components/foundation/GetDeviceType';
 import { PrimaryAnchor } from '../../components/foundation/PrimaryAnchor';
 import { WidthRestriction } from '../../components/foundation/WidthRestriction';
 import { ProductHeroImage } from '../../components/product/ProductHeroImage';
@@ -37,7 +39,9 @@ export const OrderComplete: FC = () => {
 
   return (
     <>
-      <title>購入が完了しました</title>
+      <Helmet>
+        <title>購入が完了しました</title>
+      </Helmet>
       <Layout>
         <WidthRestriction>
           <div className={styles.container()}>
