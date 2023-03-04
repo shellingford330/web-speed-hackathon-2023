@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 
 import { Layout } from '../../components/application/Layout';
@@ -84,9 +83,7 @@ export const Order: FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>購入手続き</title>
-      </Helmet>
+      <title>購入手続き</title>
       <Layout>
         <WidthRestriction>{renderContents()}</WidthRestriction>
       </Layout>
