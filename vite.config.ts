@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 import { ViteEjsPlugin } from 'vite-plugin-ejs';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import wasm from 'vite-plugin-wasm';
+// import { visualizer } from 'rollup-plugin-visualizer';
 
 import { getFileList } from './tools/get_file_list';
 
@@ -24,15 +25,18 @@ export default defineConfig(async () => {
   return {
     build: {
       assetsInlineLimit: 20480,
-      cssCodeSplit: false,
+      cssCodeSplit: true,
       cssTarget: 'es6',
-      minify: false,
+      minify: true,
       rollupOptions: {
+        // plugins: [
+        //   visualizer()
+        // ],
         output: {
           experimentalMinChunkSize: 40960,
         },
       },
-      target: 'es2015',
+      target: 'chrome110',
     },
     plugins: [
       react(),

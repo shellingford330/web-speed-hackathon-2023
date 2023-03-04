@@ -36,6 +36,7 @@ export async function initializeApolloServer(): Promise<ApolloServer<Context>> {
       rootResolve('./src/model/user.graphql'),
       rootResolve('./src/server/graphql/mutation.graphql'),
       rootResolve('./src/server/graphql/query.graphql'),
+      rootResolve('./src/model/zipcode.graphql')
     ].map((filepath) => fs.readFile(filepath, { encoding: 'utf-8' })),
   );
 

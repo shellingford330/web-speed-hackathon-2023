@@ -5,7 +5,9 @@ import { FeatureSection } from '../../model/feature_section';
 import { Product } from '../../model/product';
 import { Recommendation } from '../../model/recommendation';
 import { User } from '../../model/user';
+import zipcodeJa from 'zipcode-ja';
 import { dataSource } from '../data_source';
+import { ZipCode } from '../../model/zipcode';
 
 type QueryResolver = {
   features: GraphQLFieldResolver<unknown, Context, never, Promise<FeatureSection[]>>;
@@ -13,6 +15,7 @@ type QueryResolver = {
   product: GraphQLFieldResolver<unknown, Context, { id: number }, Promise<Product>>;
   recommendations: GraphQLFieldResolver<unknown, Context, never, Promise<Recommendation[]>>;
   user: GraphQLFieldResolver<unknown, Context, { id: number }, Promise<User>>;
+  zipCode: GraphQLFieldResolver<unknown, Context, { zipCode: string }, Promise<ZipCode>>
 };
 
 export const queryResolver: QueryResolver = {
@@ -40,4 +43,7 @@ export const queryResolver: QueryResolver = {
       where: { id: args.id },
     });
   },
+  zipCode: (_parent, args) => {
+    return zipcodeJa[args.zipCode];
+  }
 };

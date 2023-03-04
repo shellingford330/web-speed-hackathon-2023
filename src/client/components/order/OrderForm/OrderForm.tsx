@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
-import _ from 'lodash';
-import type { ChangeEventHandler, FC } from 'react';
-import zipcodeJa from 'zipcode-ja';
+import { ChangeEventHandler, FC, useEffect, useState } from 'react';
+import { useZipCode } from '../../../hooks/useZipCode';
 
 import { PrimaryButton } from '../../foundation/PrimaryButton';
 import { TextInput } from '../../foundation/TextInput';
@@ -20,6 +19,7 @@ type Props = {
 };
 
 export const OrderForm: FC<Props> = ({ onSubmit }) => {
+
   const formik = useFormik<OrderFormValue>({
     initialValues: {
       city: '',
@@ -29,17 +29,27 @@ export const OrderForm: FC<Props> = ({ onSubmit }) => {
     },
     onSubmit,
   });
+  const [formValue,setFormValue] = useState('')
+  const { zipCode } = useZipCode(formValue);
 
-  const handleZipcodeChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    formik.handleChange(event);
-
-    const zipCode = event.target.value;
-    const address = [...(_.cloneDeep(zipcodeJa)[zipCode]?.address ?? [])];
+   useEffect(()=>{
+    if(!zipCode) return
+    const address = [...(zipCode?.address ?? [])];
     const prefecture = address.shift();
     const city = address.join(' ');
 
     formik.setFieldValue('prefecture', prefecture);
+  
     formik.setFieldValue('city', city);
+  
+  },[zipCode])
+
+  const handleZipcodeChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    console.log(event.target.value)
+    setFormValue(event?.target?.value)
+    formik.handleChange(event);
+
+    // const { zipCode } = useZipCode(event.target.value);
   };
 
   return (
