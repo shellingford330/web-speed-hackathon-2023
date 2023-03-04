@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import type { FC } from 'react';
 
 import type { MediaFileFragmentResponse } from '../../../../graphql/fragments';
+import { useDeviceType } from '../../../../hooks/useDeviceType';
 import { getMediaType } from '../../../../utils/get_media_type';
 import { DeviceType, GetDeviceType } from '../../../foundation/GetDeviceType';
 import { Image } from '../../../foundation/Image';
@@ -14,26 +15,23 @@ type Props = {
 
 export const MediaItemPreviewer: FC<Props> = ({ file }) => {
   const type = getMediaType(file.filename);
+  const { isDesktop } = useDeviceType();
 
   return (
     <div className={styles.container()}>
       {type === 'image' && <Image fill src={file.filename} />}
       {type === 'video' && (
-        <GetDeviceType>
-          {({ deviceType }) => (
-            <video
-              autoPlay
-              controls
-              muted
-              playsInline
-              className={classNames(styles.video(), {
-                [styles.video__desktop()]: deviceType === DeviceType.DESKTOP,
-                [styles.video__mobile()]: deviceType === DeviceType.MOBILE,
-              })}
-              src={file.filename}
-            />
-          )}
-        </GetDeviceType>
+        <video
+          autoPlay
+          controls
+          muted
+          playsInline
+          className={classNames(styles.video(), {
+            [styles.video__desktop()]: isDesktop,
+            [styles.video__mobile()]: !isDesktop,
+          })}
+          src={file.filename}
+        />
       )}
     </div>
   );

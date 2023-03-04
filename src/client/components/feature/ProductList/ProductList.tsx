@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import type { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { memo } from 'react';
 
 import type { FeatureSectionFragmentResponse } from '../../../graphql/fragments';
-import { DeviceType, GetDeviceType } from '../../foundation/GetDeviceType';
+import { useDeviceType } from '../../../hooks/useDeviceType';
 import { ProductGridList } from '../ProductGridList';
 import { ProductListSlider } from '../ProductListSlider';
 
@@ -12,19 +12,15 @@ type Props = {
 };
 
 export const ProductList: FC<Props> = memo(({ featureSection }) => {
+  const { isDesktop } = useDeviceType();
   return (
-    <GetDeviceType>
-      {({ deviceType }) => {
-        switch (deviceType) {
-          case DeviceType.DESKTOP: {
-            return <ProductListSlider featureSection={featureSection} />;
-          }
-          case DeviceType.MOBILE: {
-            return <ProductGridList featureSection={featureSection} />;
-          }
-        }
-      }}
-    </GetDeviceType>
+    <>
+      {isDesktop ? (
+        <ProductListSlider featureSection={featureSection} />
+      ) : (
+        <ProductGridList featureSection={featureSection} />
+      )}
+    </>
   );
 }, _.isEqual);
 

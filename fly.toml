@@ -1,3 +1,6 @@
+# fly.toml file generated for late-river-5389 on 2023-03-04T18:34:07+09:00
+
+app = "late-river-5389"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
